@@ -1,0 +1,1 @@
+-o doc/yard --markup markdown --no-private --protected lib/**/*.rb app/**/*.rb - CHANGELOG

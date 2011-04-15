@@ -1,0 +1,3 @@
+module Lash
+  # Your code goes here...
+end

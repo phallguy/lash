@@ -1,3 +1,8 @@
 module Lash
-  # Your code goes here...
+end
+
+debugger
+
+if defined? ::Rails::Railtie
+  require 'lash/railtie'
 end

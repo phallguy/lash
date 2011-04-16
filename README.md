@@ -15,12 +15,17 @@ Based on ["Optimizing asset bundling and serving with Rails"](https://github.com
 
   	# Gemfile
   	gem 'lash'
+  	
+or as a plugin
+
+    rails plugin install git://github.com/appsinyourpants/lash.git
 
 ## Bundling Assets
 
 Lash includes several rake tasks to bundle loose, development versions of your static assets into minified and compressed versions. To bundle all assets simply run
 
-    rake lash:all
+    rake lash:all                   # Runs all lash tasks including javascripts and style sheets
+    rake lash:deploy                # Called by capistrano to generate static assets on the server
 
 Individual assets can be bundled on demand using their respective `lash:asset_type` tasks.
 
@@ -69,17 +74,12 @@ See {Lash::BundleHelper#javascript_bundle} for details.
 
 
 
-#### To run all JavaScript bundling tasks
+#### JavaScript bundling tasks
 
-    rake lash:js  
-
-#### To bundle application scripts
-
-    rake lash:js_bundle
-    
-#### To minify all cdn, and on-demand JavaScript files
-
-    rake lash:js_min
+    rake lash:js                    # Bundles and minifies javascripts
+    rake lash:js_bundle             # Bundles javascripts folders into single minified files
+    rake lash:js_gzip               # Compresses minified javascripts for nginx gzip_static support
+    rake lash:js_min                # Minifies all javascripts
 
 
 

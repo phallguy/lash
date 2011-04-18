@@ -1,9 +1,7 @@
-require 'find'
+require 'lash/lash_files'
 
 module Lash
   module BundleHelper
-    
-    unloadable if Rails.env.development?
     
     # Root folder where application javascript files can be found
     def javascript_root
@@ -11,10 +9,11 @@ module Lash
     end
 
     # Determines if the processed bundle files should be used, or the loose files used to build those bundles.
-    # By default bundled fies are used in production or if the request includes a `:bundle` param or cookie.
+    # By default bundled files are used in production or if the request includes a `:bundle` param or cookie.
+    # @return [Boolean] true if bundled assets should be used.
     def bundle_files?
       if params.has_key? :bundle
-        return params[:bundle] =~ /^t(rue)?|y(es)?|1$/i
+        return /^t(rue)?|y(es)?|1$/i.match( params[:bundle] ) != nil
       end
       Rails.env.production? || cookies[:bundle] == "yes"
     end
@@ -71,28 +70,11 @@ module Lash
     end
 
     private
-      # Collects an array of all files in `{basedir}` with the given `{ext}`.
-      def recursive_file_list( basedir, ext )
-        files = []
-        return files unless File.exist? basedir
-        Find.find( basedir ) do |path|
-          if FileTest.directory?( path )
-            if File.basename( path )[0] == ?. # Skip dot directories
-              Find.prune
-            else
-              next
-            end
-          end
-          files << path if File.extname( path ) == ext
-        end
-        files.sort
-      end
-
       # Generates javscript include tags for the actual bundled javascript for each named bundle
       def javascript_include_bundles( bundles )
         output = ""
         bundles.each do |bundle|
-          output << javascript_src_tag( "bundle_#{bundle}", {} )
+          output << javascript_src_tag( "bundle_#{bundle}.js", {} )
         end
         output.html_safe
       end
@@ -101,7 +83,7 @@ module Lash
       def javascript_include_files( bundles )
         output = "\n"
         bundles.each do |bundle|
-          files = recursive_file_list( File.join( javascript_root, bundle ), '.js' )
+          files = Lash::Files.recursive_file_list( File.join( javascript_root, bundle ), '.js' )
           files.each do |file|
             file = file.gsub( javascript_root, '' )
             output << javascript_src_tag( file, {} ) + "\n" 

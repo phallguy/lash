@@ -1,6 +1,7 @@
 require 'lash/java_script_minifier'
 
 module Lash
+  # Minifies a collection of scripts using Google's closure compiler.
   class ClosureMinifier < JavaScriptMinifier
     
     private 

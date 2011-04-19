@@ -63,7 +63,7 @@ namespace :lash do
     end
   end
   
-  desc 'Pre-generate sass scripts'
+  desc 'Pre-generate sass scripts' if Lash.lash_options[:use_sass]
   task :sass do |t|
     puts "SASS env = #{Rails.env} / #{Sass::Plugin.options[:style]}"
     Sass::Plugin.force_update_stylesheets

@@ -6,8 +6,15 @@ module Lash
   #     Lash.lash_options[:unicorns] = 'run free'
   #
   def self.lash_options() @lash_options; end
+
   # Overrides the default {lash_options}
-  def self.lash_options=(value) @lash_options = value; end
+  #
+  # @option options [String] :use_asset_servers           Use asset server subdomain hack to allow multiple simultaenous connections. See {Lash::AssetsHost.resolve_static_asset_server_for_source}.
+  # @option options [String] :use_asset_servers_in_ssl    Use asset server subdomain hack even over SSL. Requires a wildcard certificate.
+  # @option options [String] :use_sass                    Support SASS 
+  # @option options [String] :use_git_asset_id            Use GIT repro id for cachebusting asset id
+  # @option options [String] :closure_compiler            Path to custom version of google's closure compiler.
+  def self.lash_options=(options) @lash_options = options; end
   
   self.lash_options = {
     :use_asset_servers            => true,

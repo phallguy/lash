@@ -10,6 +10,18 @@ module Lash
   class SpriteBundler
     
     # Bundles the images in the given directory into a single large CSS sprite image
+    #
+    # @param [String] directory the directory of images to bundle into a sprite
+    #
+    # @option options [Boolean] :sass         Generate a SASS script for importing into a master.scss script
+    # @option options [Boolean] :class_name   The css class name, defaults to name of directory
+    # @option options [Boolean] :sprite_file  The name of the png sprite to generate. Defaults to `#{directory}-sprite.png`
+    # @option options [Boolean] :css_file     The name of the CSS file to generate
+    #
+    # @example
+    #
+    #     bundler.bundle "ui"         # => public/images/ui-sprite.png
+    #                                 # => public/sprites/sass/_ui-sprite.scss 
     def bundle( directory, options = nil )
       options = resolve_options( options || {}, directory )
       
@@ -21,7 +33,7 @@ module Lash
     
     private
       def resolve_options( options, directory )
-        options[:directory]     =   File.expand_path( directory )
+        options[:directory]     =   File.expand_path( directory, File.join( Rails.root, "public/sprites" ) )
         options[:sass]          =   Lash.lash_options[:use_sass] unless options.has_key?(:sass) or !Gem.available?(:sass)
         options[:class_name]    ||= ( File.basename( directory ) ).parameterize
         options[:sprite_name]   ||= ( File.basename( directory ) + '-sprite' ).parameterize

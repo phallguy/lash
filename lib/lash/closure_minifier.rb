@@ -6,7 +6,7 @@ module Lash
     private 
       def minify_scripts( files, target )
         tmp = "#{target}.tmp"
-        `java -jar \"#{Lash.lash_options[:closure_compiler]}\" #{compiler_options} --warning_level QUIET --js \"#{files.join("\" --js \"")}\" --js_output_file \"#{tmp}\"`
+        `java -jar \"#{Lash.lash_options[:closure_compiler]}\" #{command_options} --warning_level QUIET --js \"#{files.join("\" --js \"")}\" --js_output_file \"#{tmp}\"`
         if $?.exitstatus == 0   
           File.delete target if File.exist? target
           File.rename tmp, target

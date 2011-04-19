@@ -1,5 +1,5 @@
 require File.expand_path( '../../spec_helper.rb', __FILE__ )
-require 'lash/lash_files'
+require 'lash/files'
 
 describe Lash::Files do
 

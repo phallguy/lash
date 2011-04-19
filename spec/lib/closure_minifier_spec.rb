@@ -1,8 +1,9 @@
 require File.expand_path( '../../spec_helper', __FILE__ )
-require 'lash/lash_files'
+require 'lash/files'
 require 'lash/closure_minifier'
+require 'fileutils'
 
-describe Lash::ClosureMinifier do
+describe Lash::ClosureMinifier, :slow => true do
   
   before :each do
     @minifier = Lash::ClosureMinifier.new
@@ -13,6 +14,13 @@ describe Lash::ClosureMinifier do
     File.delete "#{@target}.gz" if File.exist? "#{@target}.gz"
 
     @result = @minifier.minify( @application_scripts, @target )
+  end
+  
+  it "should create output directory when it doesn't exist" do
+    outdir = File.dirname( @target )
+    FileUtils.remove_dir outdir, true
+    @minifier.minify( @application_scripts, @target )
+    File.exist?( outdir ).should be_true
   end
   
   it "should not fail" do

@@ -11,6 +11,8 @@ TMP_ROOT = File.expand_path( "../../tmp", __FILE__ )
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f} 
 
 RSpec.configure do |c|
-  # c.filter_run :focus => true
-  # c.run_all_when_everything_filtered = true
+  c.filter_run :focus => true
+  c.run_all_when_everything_filtered = true
+  c.fail_fast = true
+  c.filter_run_excluding :slow => true
 end

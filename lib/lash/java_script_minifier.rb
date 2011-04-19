@@ -1,4 +1,4 @@
-
+require 'fileutils'
 
 module Lash
   # Utility class for minifying a set of javascript sources
@@ -6,16 +6,25 @@ module Lash
     
     attr_accessor :options
     
+    def initialize
+      @options = {}
+    end
     
     # Compresses array of files into a single target minified script.
     def minify( files, target )
+      target = File.expand_path( target )
+      outdir = File.dirname( target )
+      
+      FileUtils.mkdir_p outdir
+      
       if minify_scripts( files, target )
         gzip_bundle target
       end
     end
     
     private
-      def compiler_options
+      def command_options
+        return unless @options
         @options.inject("") do |o,p|
           v = if p[1]
             "#{p[0]} #{p[1]}"

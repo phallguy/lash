@@ -1,4 +1,4 @@
-require 'lash/lash_files'
+require 'lash/files'
 
 module Lash
   module BundleHelper

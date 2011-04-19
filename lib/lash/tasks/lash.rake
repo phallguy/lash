@@ -77,11 +77,16 @@ namespace :lash do
   end
   
   desc 'Process CSS scripts'
-  task :css => [:css_sprites, :sass, :css_gzip] do |t|
-
+  task :css => [:sprites, :sass, :css_gzip, :png] do |t|
   end
   
-  
+  desc 'Optimizes all PNG images in the public/images folder'
+  task :png do |t|
+    Lash::Files.recursive_file_list( File.join( Rails.root, "public/images" ), ".png" ).each do |p|
+      `#{File.expand_path ::File.join( __FILE__, '../../../../bin/optipng')} -o7 \"#{p}\"`
+      abort "Failed to optimize png #{p}, status = #{$?.exitstatus}" unless $?.exitstatus == 0
+    end
+  end  
 
   desc 'Called by capistrano to generate static assets on the server'
   task :deploy => [:sass, :gzip_css, :js_gzip] do

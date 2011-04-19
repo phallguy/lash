@@ -24,7 +24,7 @@ module Lash
             next
           end
         end
-        if ext.respond_to? :match
+        if ext.is_a? Regexp
           files << path if ext.match( path )
         else
           files << path if File.extname( path ) == ext

@@ -89,6 +89,6 @@ namespace :lash do
   end  
 
   desc 'Called by capistrano to generate static assets on the server'
-  task :deploy => [:sass, :gzip_css, :js_gzip] do
+  task :deploy => [:sass, :gzip_css, :js_gzip, :png] do
   end
 end

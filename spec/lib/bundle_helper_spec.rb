@@ -24,6 +24,7 @@ describe Lash::BundleHelper do
 
   before :each do
     @fake = BH.new
+    Rails.root = File.expand_path( "../../test_app", __FILE__ )
   end
 
   context "bundle_files?" do
@@ -80,7 +81,7 @@ describe Lash::BundleHelper do
       end
     end
     
-    context "when _bundle_files? is false" do
+    context "when bundle_files? is false" do
       before :each do
         Rails.env = :development
       end
@@ -88,7 +89,7 @@ describe Lash::BundleHelper do
       it "should return application, application2 and validate scripts" do
         script = @fake.javascript_bundle( "application" )
         %w{ application application2 tools/validate }.each do |s|
-          script.should =~ /%application\/#{s}.js%/        
+          script.should match %r{application/#{s}.js}
         end
       end
       

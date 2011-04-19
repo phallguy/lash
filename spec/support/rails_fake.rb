@@ -6,7 +6,6 @@ class RailsFake
   
   def initialize
     @env = RSpec::Mocks::Mock.new
-    @root = File.expand_path( "../../test_app", __FILE__ )
   end  
   
   def env=(s)

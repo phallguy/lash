@@ -13,7 +13,8 @@ module Lash
     :use_asset_servers            => true,
     :use_asset_servers_in_ssl     => true,
     :use_sass                     => Gem.available?('sass'),
-    :use_git_asset_id             => true
+    :use_git_asset_id             => true,
+    :closure_compiler             => File.expand_path( "../../bin/closure-compiler/compiler.jar", __FILE__ )
   }
 end
 

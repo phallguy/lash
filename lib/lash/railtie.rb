@@ -3,7 +3,7 @@ require 'lash/assets_host'
 require 'rails'
 
 module Lash
-  # Adds Lash helper methods to your rails application and configures the asset_id to 
+  # Adds Lash helper methods to your rails application. See {Lash::AssetsHost} for more details.
   class Railtie < Rails::Railtie
 
     rake_tasks do
@@ -17,7 +17,7 @@ module Lash
     
     initializer "lash.setup_git_asset_id", :before => "action_controller.set_configs" do |app|
       AssetsHost.use_git_asset_id      
-      app.config.action_controller.asset_host = AssetsHosts.static_asset_servers
+      app.config.action_controller.asset_host = AssetsHosts.resolve_static_asset_server_for_source
     end
     
   end

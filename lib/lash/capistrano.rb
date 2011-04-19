@@ -1,3 +1,5 @@
+# Adds a deployment task to automatically generate bundled assetes on the server during deployment
+
 Capistrano::Configuration.instance.load do
   namespace :deploy do
     task :lash, :roles => [:app], :except => { :no_release => true } do

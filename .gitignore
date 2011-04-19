@@ -5,3 +5,4 @@ pkg/*
 .yardoc
 doc/yard/
 .DS_Store
+/tmp/

@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/mocks'
 
 class RailsFake
   attr_accessor :env
@@ -15,5 +16,16 @@ class RailsFake
   end
   
 end
+
+class String
+  def html_safe
+    self
+  end
+  
+  def parameterize
+    self
+  end
+end
+
 
 ::Rails = ::RailsFake.new

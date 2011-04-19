@@ -18,6 +18,19 @@ module Lash
         .id
     end
     
+    # Generates an asset id for the given file used for cache-busting
+    def self.asset_id( file )
+      if Lash.lash_options[:use_git_asset_id]
+        repo = Grit::Repo.new( Rails.root.to_s )
+        [:javascripts, :stylesheets, :images] \
+          .map { |folder| repo.log( 'master', "spec/test_app/public/#{folder}", :max_count => 1 ).first } \
+          .max_by { |log| log && log.committed_date } 
+          .id
+      elsif ::File.exist?( file )
+        File.mtime( file ).to_i.to_s
+      end
+    end
+    
     # Method used to map an asset to a static asset server. This method simply generates a semi-random domain
     # prefix based on the filename of the source. The asset server should resolve to the same server as
     # the rails app. This is a basic browser hack to allow more than 4 connections to the server so that the

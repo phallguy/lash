@@ -18,4 +18,7 @@ module Lash
   }
 end
 
-require 'lash/railtie' if defined?(::Rails::Railtie)
+require 'lash/railtie' if defined?(Rails) && Rails === Class and defined?(::Rails::Railtie)
+require 'lash/java_script_bundler'
+require 'lash/sprite_bundler'
+require 'lash/files'

@@ -1,0 +1,8 @@
+require 'rubygems'
+require File.expand_path( "../../support/rails_fake.rb", __FILE__ )
+Rails.root = File.expand_path( '..', __FILE__ )
+require 'lash'
+
+import File.expand_path( "../../../lib/lash/tasks/lash.rake", __FILE__ )
+
+Lash.lash_options[:use_git_asset_id] = false

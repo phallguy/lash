@@ -9,8 +9,10 @@ module Lash
     # @param [String] ext extension to filter results by
     # @return [Array] an array of expanded paths for each file in {basedir} and any of it's sub directories
     def self.recursive_file_list( basedir, ext )
-      ext = ".#{ext}" if ext && ext[0] != ?.
-      ext ||= ""
+      unless ext.is_a? Regexp
+        ext = ".#{ext}" if ext && ext[0] != ?.
+        ext ||= ""
+      end
       
       files = []
       return files unless File.exist? basedir
@@ -22,7 +24,11 @@ module Lash
             next
           end
         end
-        files << path if File.extname( path ) == ext
+        if ext.respond_to? :match
+          files << path if ext.match( path )
+        else
+          files << path if File.extname( path ) == ext
+        end
       end
       files.sort
     end
@@ -36,6 +42,14 @@ module Lash
         path = File.join( basedir, path )
         File.basename( path )[0] == ?. || !File.directory?( path ) ? nil : path # not dot directories or files
       end - [nil]
+    end
+    
+    # Gets the relative path from root to path of path is a subdirectory of root, otherwise returns path
+    def self.relative_to( path, root )
+      path = File.expand_path( path )
+      root = File.expand_path( root )
+      return path unless path.start_with? root
+      path[ root.length + 1, path.length ]
     end
     
   end

@@ -1,0 +1,20 @@
+
+.ui-background { 
+    background-image: url(../images/ui-sprite.png?1303253626); 
+    background-repeat: no-repeat;
+}
+
+.ui { 
+  background-color: transparent;
+  background-image: url(../images/ui-sprite.png?1303253626); 
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-indent: 99999px;
+  *text-indent: 999px; // IE 7 fix
+  text-align: left!important;
+  width: 16px;
+  height: 16px;
+}
+
+.ui-accept { background-position: -0px -0px; }
+.ui-add { background-position: -0px -16px; }

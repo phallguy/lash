@@ -17,6 +17,9 @@ Based on ["Optimizing asset bundling and serving with Rails"](https://github.com
   	gem 'lash'
 
 
+
+
+
 ## Bundling Assets
 
 Lash includes several rake tasks to bundle loose, development versions of your static assets into minified and compressed versions. To bundle all assets simply run
@@ -25,6 +28,10 @@ Lash includes several rake tasks to bundle loose, development versions of your s
     rake lash:deploy                # Called by capistrano to generate static assets on the server
 
 Individual assets can be bundled on demand using their respective `lash:asset_type` tasks.
+
+
+
+
 
 ## JavaScript
 
@@ -97,8 +104,26 @@ When referring to assets in your javascripts you loose the convenience of the ra
     rake lash:js_gzip               # Compresses minified javascripts for nginx gzip_static support
     rake lash:js_min                # Minifies all javascripts
 
+
+
+
+
+
 ## CSS Sprites
 
+CSS sprites is are an effective optimization technique, but can be very time consuming to produce. Lash makes it easy. Just drop the desired images into a folder, run a rake task and you've got a highly optimized sprite image and accompanying CSS file.
+
+Lash looks for sprite images in `public/sprites`. Each sub folder will be bundled into a single image and css file. Given the following folder structure:
+
+* public/sprites/ui
+  * accept.png
+  * add.png
+  
+Lash will generate a sprite image `public/images/ui-sprite.png` and corresponding css file `public/stylesheets/sass/_ui-sprite.scss`.
+
+#### To generate your apps sprites
+
+    rake lash:sprites
 
 
 ### _version.scss
@@ -109,8 +134,6 @@ When referring to assets in your css scripts you loose the convenience of the ra
 
     @import 'version';
     .smiley { background-image: url(/images/smiley.png?#{$bundle-version})}
-    
-
 
 ### CSS bundling tasks
 
@@ -118,6 +141,10 @@ When referring to assets in your css scripts you loose the convenience of the ra
     rake lash:css_gzip   # Compresses stylesheets for use with nginx gzip_static
     rake lash:sass       # Pre-generate sass scripts
     rake lash:sprites    # Generate CSS sprites from the public/sprites folders
+
+
+
+
 
 ## Optimizing PNG Images
 
@@ -130,6 +157,10 @@ See [A guide to PNG optimization](http://optipng.sourceforge.net/pngtech/optipng
 #### To optimize your pngs
 
     rake lash:png
+    
+    
+    
+    
 
 ## Integrating With Capistrano
 
@@ -154,6 +185,12 @@ If you use capistrano to publish your app (and really who isn't?) you'll want to
     public/stylesheets/sass/_*-sprite.scss
     public/javascripts/**/*.min.js
  
+
+
+
+
+
+
  
 ## License
 
@@ -163,43 +200,4 @@ Copyright (C) 2011 Apps In Your Pants.
 
 Dual licensed under MIT and GPLv3
 
-
-### Google Closure Compiler
-
-Copyright 2009 The Closure Compiler Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-
-
-### Optipng
-
-Copyright (C) 2001-2011 Cosmin Truta.
-
-This software is provided 'as-is', without any express or implied
-warranty.  In no event will the author(s) be held liable for any damages
-arising from the use of this software.
-
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
-
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software.  If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-
-2. Altered source versions must be plainly marked as such, and must not
-   be misrepresented as being the original software.
-
-3. This notice may not be removed or altered from any source distribution.
+[Other License Notices](LICENSE.md)

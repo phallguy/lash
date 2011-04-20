@@ -99,7 +99,25 @@ When referring to assets in your javascripts you loose the convenience of the ra
 
 ## CSS Sprites
 
-_version.scss
+
+
+### _version.scss
+
+When referring to assets in your css scripts you loose the convenience of the rails cache busting asset tags. During bundling, lash will generate an `public/stylesheets/sass/_version.scss`. You can include this into any of your SASS scripts when you reference static assets like images. 
+
+#### Example
+
+    @import 'version';
+    .smiley { background-image: url(/images/smiley.png?#{$bundle-version})}
+    
+
+
+### CSS bundling tasks
+
+    rake lash:css        # Process CSS scripts
+    rake lash:css_gzip   # Compresses stylesheets for use with nginx gzip_static
+    rake lash:sass       # Pre-generate sass scripts
+    rake lash:sprites    # Generate CSS sprites from the public/sprites folders
 
 ## Optimizing PNG Images
 

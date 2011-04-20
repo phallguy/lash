@@ -23,7 +23,7 @@ describe Lash::JavaScriptBundler do
   
   it "should bundle individual files when :style => :individual" do
     @bundler.stub(:migrate_best_target)
-    @bundler.should_receive( :bundle_scripts_with_minifier ).exactly(3).times \
+    @bundler.should_receive( :bundle_scripts_with_minifier ).at_least(3).times \
         .and_return { |f| File.open( f.first + '.tmp', "w+" ) { |s| s.write( f ) }; "#{f.first}.tmp" }
     @bundler.bundle 'application', :style => :individual
   end

@@ -29,3 +29,4 @@ require 'lash/railtie' if defined?(Rails) && Rails === Class and defined?(::Rail
 require 'lash/java_script_bundler'
 require 'lash/sprite_bundler'
 require 'lash/files'
+require 'lash/assets_host'

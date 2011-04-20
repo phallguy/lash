@@ -26,8 +26,8 @@ describe Lash::Files do
         @files = Lash::Files.recursive_file_list File.join( JAVASCRIPTS_ROOT, 'application' ), '.js'
       end
     
-      it "should find exactly 3 files" do
-        @files.count.should == 3
+      it "should find at least 3 files" do
+        @files.count.should >= 3
       end
     
       it "should include all files in application folder" do

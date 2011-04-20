@@ -28,8 +28,17 @@ namespace :lash do
   desc 'Bundles and minifies javascripts'
   task :js => [:js_bundle, :js_min]
   
+  # Creates an application.bundleVersion.js file
+  task :js_bundle_version do
+    target = File.join( Rails.root, "public/javascripts/application" )
+    if File.exist? target
+      asset_id = Lash::AssetsHost.asset_id( target )
+      File.open( File.join( target, "application.bundleVersion.js" ), "w+" ) { |f| f.write "window.bundleVersion = '#{asset_id}';"}
+    end
+  end
+  
   desc 'Bundles javascripts folders into single minified files'
-  task :js_bundle do    
+  task :js_bundle => [:js_bundle_version] do    
     Lash::Files.get_top_level_directories( javascripts_path ).each do |bundle_directory|
       next unless bundler.bundle_style( bundle_directory ) == :single
       bundler.bundle bundle_directory, :log => true
@@ -37,7 +46,7 @@ namespace :lash do
   end 
   
   desc 'Minifies all loose javascripts'
-  task :js_min do
+  task :js_min => [:js_bundle_version] do
     Lash::Files.get_top_level_directories( javascripts_path ).each do |bundle_directory|
       next unless bundler.bundle_style( bundle_directory ) == :individual
       bundler.bundle bundle_directory
@@ -65,8 +74,15 @@ namespace :lash do
   
   desc 'Pre-generate sass scripts' if Lash.lash_options[:use_sass]
   task :sass do |t|
-    puts "SASS env = #{Rails.env} / #{Sass::Plugin.options[:style]}"
-    Sass::Plugin.force_update_stylesheets
+    if Lash.lash_options[:use_sass]
+      sass_target = File.join( Rails.root, "public/stylesheets/sass" )
+      if File.exist? sass_target
+        asset_id = Lash::AssetsHost.asset_id( sass_target ) 
+        File.open( File.join( sass_target, "_version.scss" ), "w+" ) { |f| f.write "$bundle-version: '#{asset_id}';"}
+      end
+      
+      Sass::Plugin.force_update_stylesheets
+    end
   end
   
   desc "Compresses stylesheets for use with nginx gzip_static"

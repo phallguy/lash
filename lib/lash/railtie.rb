@@ -16,8 +16,8 @@ module Lash
     end
     
     initializer "lash.setup_git_asset_id", :before => "action_controller.set_configs" do |app|
-      AssetsHost.use_git_asset_id      
-      app.config.action_controller.asset_host = AssetsHosts.resolve_static_asset_server_for_source
+      Lash::AssetsHost.use_git_asset_id      
+      app.config.action_controller.asset_host = Proc.new{ |source,request| Lash::AssetsHost.resolve_static_asset_server_for_source( source, request ) }
     end
     
   end

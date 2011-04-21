@@ -13,7 +13,7 @@ module Lash
 
       ENV['RAILS_ASSET_ID'] = \
       [:javascripts, :stylesheets, :images] \
-        .map { |folder| repo.log( 'master', "spec/test_app/public/#{folder}", :max_count => 1 ).first } \
+        .map { |folder| repo.log( 'master', "public/#{folder}", :max_count => 1 ).first } \
         .max_by { |log| log && log.committed_date } 
         .id
     end
@@ -23,7 +23,7 @@ module Lash
       if Lash.lash_options[:use_git_asset_id]
         repo = Grit::Repo.new( Rails.root.to_s )
         [:javascripts, :stylesheets, :images] \
-          .map { |folder| repo.log( 'master', "spec/test_app/public/#{folder}", :max_count => 1 ).first } \
+          .map { |folder| repo.log( 'master', "public/#{folder}", :max_count => 1 ).first } \
           .max_by { |log| log && log.committed_date } 
           .id
       elsif ::File.exist?( file )
